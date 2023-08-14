@@ -3,7 +3,7 @@ name: Laravel CI and Deployment
 on:
   push:
     branches:
-      - main  # Change this to the appropriate branch
+      - main # Change this to the appropriate branch
 
 jobs:
   build:
@@ -18,46 +18,43 @@ jobs:
         sudo apt update
         sudo apt upgrade -y
         sudo apt install -y curl php-cli php-mbstring git unzip
+
     - name: Install Composer
       run: |
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
         php composer-setup.php --install-dir=/usr/local/bin --filename=composer
         php -r "unlink('composer-setup.php');"
+
     - name: Install Laravel Installer
       run: |
         composer global require laravel/installer
         echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> $HOME/.bashrc
         source $HOME/.bashrc
+
     - name: Create and Set Up Laravel Project
       run: |
         mkdir my-laravel-app
         cd my-laravel-app
         composer create-project --prefer-dist laravel/laravel .
         php artisan key:generate
+
     - name: Install Composer Dependencies
       run: |
         export COMPOSER_ALLOW_SUPERUSER=1
-        cd my-laravel-app  # Change directory to your Laravel project
+        cd my-laravel-app # Change directory to your Laravel project
         composer install --no-interaction --no-dev
-    # - name: Run Testss
-    #  run: |
-    #   cd my-laravel-app  # Change directory to your Laravel project
-    #    php artisan test
 
-    - name: Deploy to Ubuntu Server
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    # Uncomment the next steps if you want to run tests
+    # - name: Run Tests
+    #   run: |
+    #     cd my-laravel-app # Change directory to your Laravel project
+    #     php artisan test
+
+    - name: Configure SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+
+    - name: Deploy to EC2
       run: |
-         mkdir -p ~/.ssh
-         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-         chmod 600 ~/.ssh/id_rsa
-
-         # Configure SSH to use the private key
-         echo "IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
-
-         # Replace `172.31.32.134` with your server's IP address
-         ssh ubuntu@172.31.39.209 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
-
-
-
-
+        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
