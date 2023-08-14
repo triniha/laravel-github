@@ -37,6 +37,13 @@ jobs:
         cd my-laravel-app
         composer create-project --prefer-dist laravel/laravel .
         php artisan key:generate
+        
+    - name: Debug - List Files in Current Directory
+      run: |
+         ls -la
+    - name: Debug - Display Current Directory
+      run: |
+         pwd
 
     - name: Install Composer Dependencies
       run: |
