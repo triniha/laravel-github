@@ -61,13 +61,7 @@ jobs:
         # Replace `172.31.32.134` with your server's IP address
         ssh ubuntu@172.31.39.209 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
 
-       # Stop the SSH agent
-  post-job:
-      runs-on: ubuntu-latest
-      steps:
-      - name: Stop SSH agent
-        run: |
-          ssh-agent -k
+    
 
 
 
