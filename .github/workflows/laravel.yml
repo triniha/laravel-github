@@ -48,12 +48,26 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       run: |
-        mkdir -p /home/runner/.ssh/
-        echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/id_rsa
-        chmod 600 /home/runner/.ssh/id_rsa
-        chmod 700 /home/runner/.ssh/
-        chown -R runner:runner /home/runner/.ssh/
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        # Start the SSH agent
+        eval $(ssh-agent -s)
+
+        # Add the private key to the SSH agent
+        ssh-add ~/.ssh/id_rsa
+
         # Replace `172.31.32.134` with your server's IP address
         ssh ubuntu@172.31.39.209 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
+
+       # Stop the SSH agent
+  post-job:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Stop SSH agent
+        run: |
+          ssh-agent -k
+
 
 
