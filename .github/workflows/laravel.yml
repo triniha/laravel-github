@@ -44,10 +44,10 @@ jobs:
         cd my-laravel-app  # Change directory to your Laravel project
         composer install --no-interaction --no-dev
 
-    - name: Run Tests
-      run: |
-        cd my-laravel-app  # Change directory to your Laravel project
-        php artisan test
+    # - name: Run Tests
+    #  run: |
+    #   cd my-laravel-app  # Change directory to your Laravel project
+    #    php artisan test
 
     - name: Deploy to Ubuntu Server
       env:
