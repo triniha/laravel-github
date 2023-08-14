@@ -48,7 +48,10 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
       run: |
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+        mkdir -p /home/runner/.ssh/
+        echo "$SSH_PRIVATE_KEY" > /home/runner/.ssh/id_rsa
+        chmod 600 /home/runner/.ssh/id_rsa
+
         # Replace `172.31.32.134` with your server's IP address
         ssh ubuntu@172.31.39.209 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
+
