@@ -39,7 +39,7 @@ jobs:
         export COMPOSER_ALLOW_SUPERUSER=1
         cd my-laravel-app  # Change directory to your Laravel project
         composer install --no-interaction --no-dev
-    # - name: Run Tests
+    # - name: Run Testss
     #  run: |
     #   cd my-laravel-app  # Change directory to your Laravel project
     #    php artisan test
