@@ -41,10 +41,7 @@ jobs:
     - name: Debug - List Files in Current Directory
       run: |
          ls -la
-    - name: Debug - Display Current Directory
-      run: |
-         pwd
-
+    
     - name: Install Composer Dependencies
       run: |
         export COMPOSER_ALLOW_SUPERUSER=1
