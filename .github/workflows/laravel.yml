@@ -18,28 +18,33 @@ jobs:
         sudo apt update
         sudo apt upgrade -y
         sudo apt install -y curl php-cli php-mbstring git unzip
+
     - name: Install Composer
       run: |
         php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
         php composer-setup.php --install-dir=/usr/local/bin --filename=composer
         php -r "unlink('composer-setup.php');"
+
     - name: Install Laravel Installer
       run: |
         composer global require laravel/installer
         echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> $HOME/.bashrc
         source $HOME/.bashrc
+
     - name: Create and Set Up Laravel Project
       run: |
         mkdir my-laravel-app
         cd my-laravel-app
         composer create-project --prefer-dist laravel/laravel .
-        php artisan key:generate
+        php artisan key:generate --force
+
     - name: Install Composer Dependencies
       run: |
         export COMPOSER_ALLOW_SUPERUSER=1
         cd my-laravel-app # Change directory to your Laravel project
         composer install --no-interaction --no-dev
-    # Uncomment the next steps if you want to run test
+
+    # Uncomment the next steps if you want to run tests
     # - name: Run Tests
     #   run: |
     #     cd my-laravel-app # Change directory to your Laravel project
@@ -57,5 +62,6 @@ jobs:
           git pull
           composer install --no-interaction --no-dev
           php artisan migrate
-          # Add any additional deployment steps here
+          sudo apt update
+          sudo apt upgrade -y
         EOF
