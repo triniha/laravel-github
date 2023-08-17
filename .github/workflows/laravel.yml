@@ -45,13 +45,10 @@ jobs:
     #     cd my-laravel-app # Change directory to your Laravel project
     #     php artisan test
 
-    - name: Set Private Key Permissions
-      run: |
-        echo "$PRIVATE_KEY" > PRIVATE_KEY.pem
-        chmod 600 PRIVATE_KEY.pem
-
-    - name: Load Private Key into SSH Agent
-      run: ssh-add PRIVATE_KEY.pem
+    - name: Configure SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
     - name: Deploy to EC2 
       run: |
