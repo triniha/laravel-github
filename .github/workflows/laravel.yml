@@ -56,13 +56,11 @@ jobs:
         echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa 
         chmod 600 ~/.ssh/id_rsa
 
-    - name: Deploy to EC2 
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+
+    - name: Deploy application
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'bash -s' << 'EOF'
-          cd my-laravel-app
-          git pull
-          composer install --no-interaction --no-dev
-          php artisan migrate
-          sudo apt update
-          sudo apt upgrade -y
-        EOF
+        ssh ubuntu@18.181.214.192 "cd /home/ubuntu/my-laravel-app && git pull && ./deploy.sh && composer install && php artisan migrate"
