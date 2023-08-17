@@ -57,4 +57,4 @@ jobs:
 
     - name: Deploy to EC2 
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
+        ssh -o StrictHostKeyChecking=no ubuntu@18.181.214.192 'cd /home/ubuntu/my-laravel-app && git pull && composer install --no-interaction --no-dev && php artisan migrate'
