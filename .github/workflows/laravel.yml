@@ -36,7 +36,7 @@ jobs:
         mkdir my-laravel-app
         cd my-laravel-app
         composer create-project --prefer-dist laravel/laravel .
-        php artisan key:generate --force
+        php artisan key:generate
 
     - name: Install Composer Dependencies
       run: |
