@@ -45,6 +45,10 @@ jobs:
     #     cd my-laravel-app # Change directory to your Laravel project
     #     php artisan test
 
+    - name: Set Ownership to ubuntu User
+      run: |
+        sudo chown -R ubuntu:ubuntu /home/ubuntu/my-laravel-app
+
     - name: Configure SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -52,4 +56,4 @@ jobs:
 
     - name: Deploy to EC2 
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@18.181.214.192 'cd /home/ubuntu/my-laravel-app && git pull && composer install --no-interaction --no-dev && php artisan migrate'
+        ssh -o StrictHostKeyChecking=no ubuntu@18.181.214.192 'cd /home/ubuntu/my-laravel-app && git pull && composer install --no-interaction --no-dev && php artisan migrate'omposer install --no-interaction --no-dev && php artisan migrate'
