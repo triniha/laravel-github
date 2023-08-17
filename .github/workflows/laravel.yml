@@ -44,7 +44,7 @@ jobs:
         cd my-laravel-app # Change directory to your Laravel project
         composer install --no-interaction --no-dev
 
-    # Uncomment the next steps if you want to run tests
+    # Uncomment the next steps if you want to run test
     # - name: Run Tests
     #   run: |
     #     cd my-laravel-app # Change directory to your Laravel project
@@ -55,6 +55,6 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.PRIVATE_KEY }}
 
-    - name: Deploy to EC2
+    - name: Deploy to EC2 
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/my-laravel-app && git pull && composer install && php artisan migrate'
