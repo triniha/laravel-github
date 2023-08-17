@@ -50,13 +50,8 @@ jobs:
         echo "$PRIVATE_KEY" > key.pem
         chmod 600 key.pem
 
-    - name: Configure SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: |
-          -----BEGIN RSA PRIVATE KEY-----
-          ${{ secrets.PRIVATE_KEY }}
-          -----END RSA PRIVATE KEY-----
+    - name: Load Private Key into SSH Agent
+      run: ssh-add PRIVATE_KEY
 
     - name: Deploy to EC2 
       run: |
