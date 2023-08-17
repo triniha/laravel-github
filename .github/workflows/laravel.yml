@@ -47,11 +47,11 @@ jobs:
 
     - name: Set Private Key Permissions
       run: |
-        echo "$PRIVATE_KEY" > key.pem
-        chmod 600 key.pem
+        echo "$PRIVATE_KEY" > PRIVATE_KEY.pem
+        chmod 600 PRIVATE_KEY.pem
 
     - name: Load Private Key into SSH Agent
-      run: ssh-add PRIVATE_KEY
+      run: ssh-add PRIVATE_KEY.pem
 
     - name: Deploy to EC2 
       run: |
