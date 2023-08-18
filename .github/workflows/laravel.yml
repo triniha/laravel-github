@@ -63,4 +63,4 @@ jobs:
 
     - name: Deploy application
       run: |
-        ssh ubuntu@18.181.214.192 "cd /home/ubuntu/my-laravel-app && git pull && ./deploy.sh && composer install && php artisan migrate"
+        ssh root@172.31.39.209 "cd /home/ubuntu/my-laravel-app && git pull && ./deploy.sh && composer install && php artisan migrate"
