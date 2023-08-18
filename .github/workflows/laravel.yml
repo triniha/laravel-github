@@ -41,6 +41,7 @@ jobs:
     - name: Install Composer Dependencies
       run: |
         export COMPOSER_ALLOW_SUPERUSER=1
+        cd my-laravel-app # Change directory to your Laravel project
         composer install --no-interaction --no-dev
 
     - name: Run Tests
